@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Create Product{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-25">
+    <h3 class="text-center">Create Product</h3>
+    <form method=post>
+        {{ form.csrf_token }}
+        <dl>
+            {{ render_field(form.name) }}
+            {{ render_field(form.description) }}
+            {{ render_field(form.price) }}
+            {{ render_field(form.stock) }}
+            {{ render_field(form.category) }}
+            {{ form.is_listed.label }}
+            {{ form.is_listed }}
+        </dl>
+        <input type=submit value=Submit class="btn btn-primary">
+    </form>
+    </div>
+{% endblock %}

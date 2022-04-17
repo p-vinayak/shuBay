@@ -1,0 +1,22 @@
+{% extends 'authBase.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Register{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-25">
+    <h3 class="text-center">Register</h3>
+    <form method=post>
+        {{ form.csrf_token }}
+        <dl>
+            {{ render_field(form.first_name) }}
+            {{ render_field(form.last_name) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.phone_number) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.password_confirm) }}
+        </dl>
+        <input type=submit value=Register class="btn btn-primary">
+    </form>
+    <p class="mt-2">Already have an account? Login <a href="{{ url_for('auth.login') }}">here.</a></p>
+    </div>
+{% endblock %}

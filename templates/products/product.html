@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+        <h4 class="text-center">{{ product.name }}</h4>
+        <p>Description: {{ product.description }}</p>
+        <p>Category: {{ product.category.name }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Stock: {{ product.stock }}</p>
+        <p>Vendor: {{ product.vendor.first_name }} {{ product.vendor.last_name }} ({{ product.vendor.email }})</p>
+        {% if form  %}
+            <form method=post>
+                {{ form.csrf_token }}
+                <dl>
+                    {{ render_field(form.item_count) }}
+                </dl>
+                <input type=submit value="Add to Cart" class="btn btn-primary">
+            </form>
+        {% endif %}
+    </div>
+    {% if form is none %}
+        <div class="container border border-1 rounded-3 bg-light p-2 mt-3 w-50">
+            <h5 class="text-center">This product is already in your cart. Please make any adjustments from the <a href="{{ url_for("cart.index") }}">cart</a> menu.</h5>
+        </div>
+    {% endif %}
+{% endblock %}

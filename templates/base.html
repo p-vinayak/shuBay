@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename="css/bootstrap.min.css") }}" rel="stylesheet">
+    <!-- Title -->
+    <title>shuBay - {% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+        <div class="container border border-1 rounded-3 bg-light p-4 mt-4 mb-4 text-center" style="width: 40%">
+            <div class="fw-bold">{{ user.first_name }} {{ user.last_name }} ({{ user.email }})</div>
+            <p class="mt-2">
+                Navigation:
+                <a href="{{ url_for("dashboard.index") }}">Dashboard</a>
+                <a href="{{ url_for("products.index") }}">Products</a>
+                <a href="{{ url_for("cart.index") }}">Cart</a>
+                <a href="{{ url_for("orders.index") }}">Orders</a>
+                <a href="{{ url_for("cart.checkout") }}">Checkout</a>
+                <a href="{{ url_for("auth.logout") }}">Logout</a>
+            </p>
+        </div>
+    </div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="{{ url_for('static', filename="js/bootstrap.bundle.js") }}"></script>
+  </body>
+</html>

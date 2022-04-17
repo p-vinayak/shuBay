@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Apply For Vendor{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-25">
+    <h3 class="text-center">Apply For Vendor</h3>
+    <form method=post>
+        {{ form.csrf_token }}
+        <dl>
+            {{ render_field(form.title) }}
+            {{ render_field(form.description) }}
+        </dl>
+        <input type=submit value=Submit class="btn btn-primary">
+    </form>
+    </div>
+{% endblock %}

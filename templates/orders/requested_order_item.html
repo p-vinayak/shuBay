@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Order #{{ requested_order_item.order.id }} - {{ requested_order_item.product.name }}{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+        <h4 class="text-center">{{ requested_order_item.product.name }}</h4>
+        <p>Description: {{ requested_order_item.product.description }}</p>
+        <p>Category: {{ requested_order_item.product.category.name }}</p>
+        <p>Price Paid Per Unit: ${{ requested_order_item.product_price }}</p>
+        <p>Purchase Quantity: {{ requested_order_item.product_quantity }}</p>
+        <p>Total Paid: ${{ requested_order_item.sub_total }}</p>
+        <p>Vendor: {{ requested_order_item.product.vendor.first_name }} {{ requested_order_item.product.vendor.last_name }} ({{ requested_order_item.product.vendor.email }})</p>
+        <p>Status: {% if requested_order_item.is_delivered %}Complete{% else %}Incomplete{% endif %}</p>
+        {% if not requested_order_item.is_delivered  %}
+            <form method=post>
+                <input type=submit value="Complete Order" class="btn btn-primary">
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

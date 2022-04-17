@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-25">
+        <h3 class="text-center">Dashboard</h3>
+        {% if not user.is_vendor and not has_active_application %}
+            <div class="row mt-2">
+                <a href="{{ url_for("vendor.apply") }}" class="btn btn-warning w-100">Apply for Vendor</a>
+            </div>
+        {% endif %}
+        {% if user.is_vendor %}
+            <div class="row mt-2">
+                <a href="{{ url_for("products.create") }}" class="btn btn-warning w-100">Create Product</a>
+            </div>
+        {% endif %}
+            {% if user.is_vendor %}
+            <div class="row mt-2">
+                <a href="{{ url_for("products.manage") }}" class="btn btn-warning w-100">Your Products</a>
+            </div>
+        {% endif %}
+            {% if user.is_vendor %}
+            <div class="row mt-2">
+                <a href="{{ url_for("orders.requested") }}" class="btn btn-warning w-100">Requested Orders</a>
+            </div>
+        {% endif %}
+        {% if user.is_admin %}
+            <div class="row mt-2">
+                <a href="{{ url_for("vendor.applications") }}" class="btn btn-danger w-100">View Vendor Applications</a>
+            </div>
+        {% endif %}
+       {% if user.is_admin %}
+            <div class="row mt-2">
+                <a href="{{ url_for("products.create_category") }}" class="btn btn-danger w-100">Create Product Category</a>
+            </div>
+        {% endif %}
+       <div class="row mt-2">
+            <a href="{{ url_for("products.index") }}" class="btn btn-success w-100 w-100">Browse Products</a>
+        </div>
+           <div class="row mt-2">
+            <a href="{{ url_for("cart.index") }}" class="btn btn-success w-100 w-100">View Cart</a>
+        </div>
+        <div class="row mt-2">
+            <a href="{{ url_for("cart.checkout") }}" class="btn btn-success w-100">Checkout</a>
+        </div>
+            <div class="row mt-2">
+            <a href="{{ url_for("orders.index") }}" class="btn btn-success w-100">Your Orders</a>
+        </div>
+       <div class="row mt-2">
+            <a href="{{ url_for("auth.change_password") }}" class="btn btn-success w-100 w-100">Change Password</a>
+        </div>
+        <div class="row mt-2">
+            <a href="{{ url_for("auth.logout") }}" class="btn btn-success w-100">Logout</a>
+        </div>
+    </div>
+    {% if not user.is_vendor and has_active_application %}
+        <div class="container border border-1 rounded-3 bg-light p-2 mt-3 w-25">
+            <h5 class="text-center">Your vendor application is currently pending approval.</h5>
+        </div>
+    {% endif %}
+{% endblock %}

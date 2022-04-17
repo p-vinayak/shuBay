@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-75">
+        <h3 class="text-center">Order #{{ order.id }}</h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Purchase Price</th>
+                <th scope="col">Purchase Quantity</th>
+                <th scope="col">Sub Total</th>
+                <th scope="col">Delivered?</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ item.product.id }}</td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product_price }}</td>
+                        <td>{{ item.product_quantity }}</td>
+                        <td>{{ item.sub_total }}</td>
+                        <td>{{ item.is_delivered }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <div class="text-center mt-4">
+        <h5>Subtotal: ${{ order.sub_total }}</h5>
+        <h5>Delivery Charges: ${{ order.delivery_charge }}</h5>
+        <h5>Taxes: ${{ order.taxes }}</h5>
+        <h5>Final Total: ${{ order.total }}</h5>
+        <h5>Created At: {{ order.created_at.strftime('%b %d %Y at %r') }}</h5>
+        <h5>Order Status: {% if order.is_complete %}Complete{% else %}In-Progress{% endif %}</h5>
+        {% if order.is_complete %}
+            <h5>Order Completed At: {{ order.completed_at.strftime('%b %d %Y at %r') }}</h5>
+        {% endif %}
+    </div>
+    </div>
+{% endblock %}

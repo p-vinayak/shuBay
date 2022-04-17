@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Orders{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-75">
+    <h3 class="text-center">Your Orders</h3>
+    {% for order in orders %}
+        <div class="text-center">
+            <a href="{{ url_for("orders.order", id=order.id) }}">Order #{{ order.id }} - ${{ order.total }} - Created {{ order.created_at.strftime('%b %d %Y at %r') }} -
+                {% if order.is_complete %}Completed{% else %}In-Progress{% endif %}</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

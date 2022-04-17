@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Application #{{ application.id }}{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+        <h4 class="text-center">Application #{{ application.id }}</h4>
+        <p>Title: {{ application.title }}</p>
+        <p>Description: {{ application.description }}</p>
+        <p>Submitted by: {{ application.owner.email }}</p>
+        <form class="d-inline-block" method=post action="{{ url_for("vendor.approve_application", id=application.id) }}">
+            <input type=submit value="Approve" class="btn btn-success">
+        </form>
+        <form class="d-inline-block" method=post action="{{ url_for("vendor.deny_application", id=application.id) }}">
+            <input type=submit value="Reject" class="btn btn-danger">
+        </form>
+    </div>
+{% endblock %}

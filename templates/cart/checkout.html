@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart - Checkout{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+    <h3 class="text-center">Checkout</h3>
+    {% for item in cart_items %}
+        <div class="text-center">
+            <a href="{{ url_for("cart.manage", id=item.product.id) }}">{{ item.product.name }} - ${{ item.product.price }} x ({{ item.quantity }} items) =
+                ${{ item.quantity * item.product.price }}</a> {% if item.is_adjusted %}This item's purchase quantity was adjusted to match available stock.{% endif %}
+        </div>
+    {% endfor %}
+    {% if cart_items|length > 0 %}
+    <div class="text-center mt-4">
+        <h5>Subtotal: ${{ sub_total }}</h5>
+        <h5>Delivery Charges: ${{ delivery_charge }}</h5>
+        <h5>Taxes: ${{ taxes }}</h5>
+        <h5>Final Total: ${{ total }}</h5>
+    </div>
+    <form method="post" class="text-center mt-4">
+        <input type="submit" class="btn btn-success w-25" value="Checkout">
+    </form>
+    {% endif %}
+    </div>
+{% endblock %}

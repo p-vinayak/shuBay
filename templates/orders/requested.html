@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Requested Orders{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-75">
+    <h3 class="text-center">Requested Orders</h3>
+        {% for order_item in requested_orders %}
+            <div class="text-center">
+                <a href="{{ url_for("orders.requested_order_item", order_id=order_item.order_id, product_id=order_item.product.id) }}">
+                    Order #{{ order_item.order_id }} - {{ order_item.product.name }} (x{{ order_item.product_quantity }} units) -
+                    {% if not order_item.is_delivered %}Not Delivered{% else %}Delivered{% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

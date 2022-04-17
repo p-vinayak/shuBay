@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Products{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+    <h3 class="text-center">Browse Products</h3>
+    {% for product in products %}
+        <div class="text-center">
+            <a href="{{ url_for("products.product", id=product.id) }}">{{ product.name }} - ${{ product.price }} -
+                Sold by {{ product.vendor.first_name }} {{ product.vendor.last_name }}</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-75">
+    <h3 class="text-center">Your Cart</h3>
+    {% for item in cart_items %}
+        <div class="text-center">
+            <a href="{{ url_for("cart.manage", id=item.product.id) }}">{{ item.product.name }} - ${{ item.product.price }} x ({{ item.quantity }} items) =
+                ${{ item.quantity * item.product.price }}</a> {% if item.is_adjusted %}This item's purchase quantity was adjusted to match available stock.{% endif %}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
