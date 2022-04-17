@@ -24,12 +24,11 @@ Environment variables must be in a `config.json` file in the root directory of t
 ```json
 {
   "SECRET_KEY": "<RANDOM_CRYPTOGRAPHIC_SECRET>",
-  "SQLALCHEMY_DATABASE_URI": "<POSTGRES_CONNECTION_URI>",
-  "SQLALCHEMY_TRACK_MODIFICATIONS": false,
-  "ADMIN_PASSWORD": "<ADMIN_PASSWORD>",
-  "WTF_CSRF_SECRET_KEY": "<RANDOM_CRYPTOGRAPHIC_SECRET>"
+  "WTF_CSRF_SECRET_KEY": "<RANDOM_CRYPTOGRAPHIC_SECRET",
+  "SQLALCHEMY_DATABASE_URI": "postgresql://user:password@ip:port/shuBay",
+  "ADMIN_PASSWORD": "<STRONG_PASSWORD>",
+  "SQLALCHEMY_TRACK_MODIFICATIONS": false
 }
-
 ```
 
 ## Initialization
