@@ -1,5 +1,5 @@
 import json
-from flask import Flask
+from flask import Flask, redirect, url_for
 from db import db
 from cli.commands import init_db
 from flask_login import LoginManager
@@ -41,5 +41,10 @@ def create_app():
     @login_manager.user_loader
     def user_loader(user_id):
         return get_user_by_id(user_id)
+
+    # Home page should redirect to login page
+    @app.route("/", methods=["GET", "POST"])
+    def home():
+        return redirect(url_for("auth.login"))
 
     return app

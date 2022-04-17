@@ -13,6 +13,8 @@ Pip for Python 3 (pip3)
 
 ## Installation
 
+Install all required packages
+
 ```
 pip3 install -r requirements.txt
 ```
@@ -27,9 +29,14 @@ Environment variables must be in a `config.json` file in the root directory of t
   "WTF_CSRF_SECRET_KEY": "<RANDOM_CRYPTOGRAPHIC_SECRET",
   "SQLALCHEMY_DATABASE_URI": "postgresql://user:password@ip:port/shuBay",
   "ADMIN_PASSWORD": "<STRONG_PASSWORD>",
-  "SQLALCHEMY_TRACK_MODIFICATIONS": false
+  "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+  "SQLALCHEMY_ECHO": false
 }
 ```
+
+While `SQLALCHEMY_TRACK_MODIFICATIONS` should be set to false, you may set `SQLALCHEMY_ECHO` to true if you want to 
+see all the queries that being executed by sqlalchemy. Sqlalchemy will log every query executed to the console in SQL
+format.
 
 ## Initialization
 
@@ -128,5 +135,3 @@ Services can be found under packages (such as users, vendor, products etc.).
 ## Todo
 
 - Vendor revoke feature
-- Redirect home to auth.login
-- Add migrations
