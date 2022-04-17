@@ -49,7 +49,8 @@ categories.
 Please also ensure that you do not execute `flask run` without setting the environment variables 
 (such as `export FLASK_APP=main`).
 
-You may run the application using the following commands.
+You may run the application using the following commands, after which the project should be running on 
+`http://127.0.0.1:5000`.
 
 Development:
 
@@ -124,3 +125,9 @@ Services is where the core of the website's CRUD operations take place. Services
 delete from the database. 
 
 Services can be found under packages (such as users, vendor, products etc.).
+
+## Todo
+
+- Vendor revoke feature
+- Redirect home to auth.login
+- Add migrations
