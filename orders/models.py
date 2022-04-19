@@ -18,7 +18,7 @@ class Order(db.Model):
     total = db.Column(db.Numeric(8, 2), CheckConstraint("total >= 0"), default=0, nullable=False)
 
     # Used internally, does not affect table creation
-    items = db.relationship("OrderItem", lazy=False, backref="order", cascade="all,delete")
+    items = db.relationship("OrderItem", lazy=False, backref="order")
 
     def __init__(self, customer_id):
         self.customer_id = customer_id
@@ -44,7 +44,7 @@ class Order(db.Model):
 class OrderItem(db.Model):
     __tablename__ = "order_item"
 
-    order_id = db.Column(db.Integer(), db.ForeignKey("order.id"), nullable=False, primary_key=True)
+    order_id = db.Column(db.Integer(), db.ForeignKey("order.id", ondelete="CASCADE"), nullable=False, primary_key=True)
     product_id = db.Column(db.Integer(), db.ForeignKey("product.id"), nullable=False, primary_key=True)
     product_price = db.Column(db.Numeric(8, 2), CheckConstraint("product_price >= 0"), nullable=0)
     product_quantity = db.Column(db.Integer(), CheckConstraint("product_quantity > 0"), nullable=False)

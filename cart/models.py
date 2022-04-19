@@ -36,7 +36,7 @@ class Cart(db.Model):
 class CartItem(db.Model):
     __tablename__ = "cart_item"
 
-    cart_id = db.Column(db.Integer(), db.ForeignKey("cart.id"), nullable=False, primary_key=True, autoincrement=False)
+    cart_id = db.Column(db.Integer(), db.ForeignKey("cart.id", ondelete="CASCADE"), nullable=False, primary_key=True, autoincrement=False)
     product_id = db.Column(db.Integer(), db.ForeignKey("product.id"), nullable=False, primary_key=True, autoincrement=False)
     quantity = db.Column(db.Integer(), CheckConstraint("quantity > 0"), nullable=False)
 

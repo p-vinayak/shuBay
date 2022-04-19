@@ -83,7 +83,7 @@ CREATE TABLE cart_item (
 	product_id INTEGER NOT NULL, 
 	quantity INTEGER NOT NULL CHECK (quantity > 0), 
 	PRIMARY KEY (cart_id, product_id), 
-	FOREIGN KEY(cart_id) REFERENCES cart (id), 
+	FOREIGN KEY(cart_id) REFERENCES cart (id) ON DELETE CASCADE, 
 	FOREIGN KEY(product_id) REFERENCES product (id)
 )
 
@@ -95,6 +95,6 @@ CREATE TABLE order_item (
 	sub_total NUMERIC(8, 2) NOT NULL CHECK (sub_total >= 0), 
 	is_delivered BOOLEAN NOT NULL, 
 	PRIMARY KEY (order_id, product_id), 
-	FOREIGN KEY(order_id) REFERENCES "order" (id), 
+	FOREIGN KEY(order_id) REFERENCES "order" (id) ON DELETE CASCADE, 
 	FOREIGN KEY(product_id) REFERENCES product (id)
 )

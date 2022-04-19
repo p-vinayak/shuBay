@@ -1,6 +1,11 @@
+from users.models import User
 from vendor.models import VendorApplication
 from datetime import datetime
 from db import db
+
+
+def get_all_vendors():
+    return User.query.filter_by(is_vendor=True).all()
 
 
 def get_active_application_for_user(user_id):

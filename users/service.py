@@ -28,3 +28,8 @@ def update_user_password(user_id, password):
     user.password_plain = password
     db.session.commit()
 
+
+def set_vendor(user_id, vendor_status):
+    user = User.query.filter_by(id=user_id).first()
+    user.is_vendor = vendor_status
+    db.session.commit()

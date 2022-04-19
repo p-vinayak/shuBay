@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Manage Vendors{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+    <h3 class="text-center">Manage Vendors</h3>
+    {% for vendor in vendors %}
+        <div class="text-center">
+            <a href="{{ url_for("vendor.manage_vendor", id=vendor.id) }}">{{ vendor.email }} - {{ vendor.first_name }} {{ vendor.last_name }}</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

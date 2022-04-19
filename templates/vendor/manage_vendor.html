@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}Manage Vendor - {{ vendor.email }}{% endblock %}
+{% block content %}
+    <div class="container border border-1 rounded-3 bg-light p-4 mt-5 w-50">
+        <h4 class="text-center">Manage Vendor - {{ vendor.email }}</h4>
+        <p>Name: {{ vendor.first_name }} {{ vendor.last_name }}</p>
+        <p>Email: {{ vendor.email }}</p>
+        <p>Phone Number: {{ vendor.phone_number }}</p>
+        <form class="d-inline-block" method=post action="{{ url_for("vendor.revoke_vendor", id=vendor.id) }}">
+            <input type=submit value="Revoke Vendor" class="btn btn-danger">
+        </form>
+    </div>
+{% endblock %}
