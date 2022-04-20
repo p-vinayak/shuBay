@@ -89,11 +89,11 @@ def manage():
     return render_template("products/manage.html", user=current_user, products=products)
 
 
-# Lists all products that are listed and have stock
+# Lists all products that are listed, have stock, and are sold by an active vendor
 @products.route("/", methods=["GET"])
 @login_required
 def index():
-    # Get all listed products that are currently in stock
+    # Get all listed products that are currently in stock and are sold by an active vendor
     products = get_product_listing()
     # Render product listing page
     return render_template("products/index.html", user=current_user, products=products)
@@ -107,7 +107,7 @@ def product(id):
     # Redirect if product doesn't exist
     if product is None:
         return redirect(url_for("products.index"))
-    # Redirect if product is not listed or has no stock available
+    # Redirect if product is not listed, has no stock available, or has an inactive vendor
     if not product.is_listed or product.stock < 1 or not product.vendor.is_vendor:
         return redirect(url_for("products.index"))
     # Get this product as a cart item, if the user has it in their cart

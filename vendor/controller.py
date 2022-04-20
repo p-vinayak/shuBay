@@ -111,7 +111,7 @@ def manage_vendor(id):
     return render_template("vendor/manage_vendor.html", user=current_user, vendor=user)
 
 
-# Revokes vendor access from a specific vendor and unlists their products
+# Revokes vendor access from a specific vendor
 @vendor.route("/manage/<int:id>/revoke", methods=["POST"])
 @login_required
 def revoke_vendor(id):
