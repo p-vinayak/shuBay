@@ -1,11 +1,11 @@
-DROP TABLE order_item
-DROP TABLE cart_item
-DROP TABLE vendor_application
-DROP TABLE "order"
-DROP TABLE product
-DROP TABLE cart
-DROP TABLE product_category
-DROP TABLE "user"
+DROP TABLE order_item;
+DROP TABLE cart_item;
+DROP TABLE vendor_application;
+DROP TABLE "order";
+DROP TABLE product;
+DROP TABLE cart;
+DROP TABLE product_category;
+DROP TABLE "user";
 
 CREATE TABLE "user" (
 	id SERIAL NOT NULL, 
@@ -19,20 +19,20 @@ CREATE TABLE "user" (
 	is_admin BOOLEAN NOT NULL, 
 	PRIMARY KEY (id), 
 	UNIQUE (email)
-)
+);
 
 CREATE TABLE product_category (
 	id SERIAL NOT NULL, 
 	name VARCHAR(50) NOT NULL, 
 	PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE cart (
 	id SERIAL NOT NULL, 
 	owner_id INTEGER NOT NULL, 
 	PRIMARY KEY (id), 
 	FOREIGN KEY(owner_id) REFERENCES "user" (id)
-)
+);
 
 CREATE TABLE product (
 	id SERIAL NOT NULL, 
@@ -46,7 +46,7 @@ CREATE TABLE product (
 	PRIMARY KEY (id), 
 	FOREIGN KEY(vendor_id) REFERENCES "user" (id), 
 	FOREIGN KEY(category_id) REFERENCES product_category (id)
-)
+);
 
 CREATE TABLE "order" (
 	id SERIAL NOT NULL, 
@@ -61,7 +61,7 @@ CREATE TABLE "order" (
 	total NUMERIC(8, 2) NOT NULL CHECK (total >= 0), 
 	PRIMARY KEY (id), 
 	FOREIGN KEY(customer_id) REFERENCES "user" (id)
-)
+);
 
 CREATE TABLE vendor_application (
 	id SERIAL NOT NULL, 
@@ -76,7 +76,7 @@ CREATE TABLE vendor_application (
 	PRIMARY KEY (id), 
 	FOREIGN KEY(owner_id) REFERENCES "user" (id), 
 	FOREIGN KEY(completed_by_id) REFERENCES "user" (id)
-)
+);
 
 CREATE TABLE cart_item (
 	cart_id INTEGER NOT NULL, 
@@ -85,7 +85,7 @@ CREATE TABLE cart_item (
 	PRIMARY KEY (cart_id, product_id), 
 	FOREIGN KEY(cart_id) REFERENCES cart (id) ON DELETE CASCADE, 
 	FOREIGN KEY(product_id) REFERENCES product (id)
-)
+);
 
 CREATE TABLE order_item (
 	order_id INTEGER NOT NULL, 
@@ -97,4 +97,4 @@ CREATE TABLE order_item (
 	PRIMARY KEY (order_id, product_id), 
 	FOREIGN KEY(order_id) REFERENCES "order" (id) ON DELETE CASCADE, 
 	FOREIGN KEY(product_id) REFERENCES product (id)
-)
+);

@@ -5,6 +5,7 @@ from vendor.service import get_active_application_for_user
 dashboard = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
 
+# One-stop-shop for all functionalities on the website
 @dashboard.route("/", methods=["GET"])
 @login_required
 def index():

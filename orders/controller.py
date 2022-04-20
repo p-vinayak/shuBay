@@ -1,11 +1,11 @@
 from flask import Blueprint, request, url_for, redirect, render_template
 from flask_login import login_required, current_user
 from orders.service import *
-from products.service import *
 
 orders = Blueprint("orders", __name__, url_prefix="/orders")
 
 
+# Displays all past orders for a user
 @orders.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -14,6 +14,7 @@ def index():
     return render_template("orders/index.html", user=current_user, orders=orders)
 
 
+# Displays specific order details to user
 @orders.route("/<int:id>", methods=["GET"])
 @login_required
 def order(id):
@@ -28,6 +29,7 @@ def order(id):
     return render_template("orders/order.html", user=current_user, order=order)
 
 
+# Gets all orders that need to be fulfilled or have been fulfilled, by this vendor
 @orders.route("/requested", methods=["GET", "POST"])
 @login_required
 def requested():
@@ -40,6 +42,7 @@ def requested():
     return render_template("orders/requested.html", user=current_user, requested_orders=requested_orders)
 
 
+# Displays specific requested order to vendor. Allows them to fulfill the order and mark it as delivered
 @orders.route("/requested/<int:order_id>/<int:product_id>", methods=["GET", "POST"])
 @login_required
 def requested_order_item(order_id, product_id):

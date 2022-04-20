@@ -7,6 +7,7 @@ from users.service import get_user_by_id, set_vendor
 vendor = Blueprint("vendor", __name__, url_prefix="/vendor")
 
 
+# Allows non-vendors to apply for vendor status
 @vendor.route("/apply", methods=["GET", "POST"])
 @login_required
 def apply():
@@ -23,6 +24,7 @@ def apply():
     return render_template("vendor/apply.html", form=form, user=current_user)
 
 
+# Allows admins to see all incomplete applications
 @vendor.route("/applications", methods=["GET"])
 @login_required
 def applications():
@@ -34,6 +36,7 @@ def applications():
     return render_template("vendor/applications.html", user=current_user, applications=active_applications)
 
 
+# Displays specific application to admin
 @vendor.route("/applications/<int:id>", methods=["GET"])
 @login_required
 def application(id):
@@ -48,6 +51,7 @@ def application(id):
     return render_template("vendor/application.html", user=current_user, application=application)
 
 
+# Approves specific application (admins only)
 @vendor.route("/applications/<int:id>/approve", methods=["POST"])
 @login_required
 def approve_application(id):
@@ -63,6 +67,7 @@ def approve_application(id):
     return redirect(url_for("vendor.applications"))
 
 
+# Denies specific application (admins only)
 @vendor.route("/applications/<int:id>/deny", methods=["POST"])
 @login_required
 def deny_application(id):
@@ -78,6 +83,7 @@ def deny_application(id):
     return redirect(url_for("vendor.applications"))
 
 
+# Displays all vendors to admins
 @vendor.route("/manage", methods=["GET"])
 @login_required
 def manage():
@@ -89,6 +95,7 @@ def manage():
     return render_template("vendor/manage.html", user=current_user, vendors=vendors)
 
 
+# Allows admin to manage specific vendor
 @vendor.route("/manage/<int:id>", methods=["GET"])
 @login_required
 def manage_vendor(id):
@@ -104,6 +111,7 @@ def manage_vendor(id):
     return render_template("vendor/manage_vendor.html", user=current_user, vendor=user)
 
 
+# Revokes vendor access from a specific vendor and unlists their products
 @vendor.route("/manage/<int:id>/revoke", methods=["POST"])
 @login_required
 def revoke_vendor(id):
@@ -117,4 +125,5 @@ def revoke_vendor(id):
     if not user.is_vendor:
         return redirect(url_for("vendor.manage"))
     set_vendor(user.id, False)
+    unlist_all_products_for_vendor(user.id)
     return redirect(url_for("vendor.manage"))

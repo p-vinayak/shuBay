@@ -7,6 +7,7 @@ from orders.service import *
 cart = Blueprint("cart", __name__, url_prefix="/cart")
 
 
+# Displays all cart items to user
 @cart.route("/", methods=["GET"])
 @login_required
 def index():
@@ -19,6 +20,7 @@ def index():
     return render_template("cart/index.html", user=current_user, cart_items=current_user.cart.items)
 
 
+# Allows user to manage individual cart item
 @cart.route("/manage/<int:id>", methods=["GET", "POST"])
 @login_required
 def manage(id):
@@ -47,6 +49,7 @@ def manage(id):
     return render_template("cart/manage.html", user=current_user, item=cart_item, form=form)
 
 
+# Removes specific product from cart
 @cart.route("manage/<int:id>/remove", methods=["GET", "POST"])
 @login_required
 def remove(id):
@@ -54,6 +57,7 @@ def remove(id):
     return redirect(url_for("cart.index"))
 
 
+# Checks out all items in cart and creates an order from it
 @cart.route("/checkout", methods=["GET", "POST"])
 @login_required
 def checkout():

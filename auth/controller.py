@@ -7,6 +7,7 @@ from flask_login import login_user
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 
 
+# User registration
 @auth.route("/register", methods=["GET", "POST"])
 def register():
     # Redirect to dashboard if users already authenticated
@@ -22,6 +23,7 @@ def register():
     return render_template("auth/register.html", form=form)
 
 
+# User login
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     # Redirect to dashboard if users already authenticated
@@ -38,6 +40,7 @@ def login():
     return render_template("auth/login.html", form=form)
 
 
+# User logout
 @auth.route('/logout', methods=["GET"])
 @login_required
 def logout():
@@ -45,6 +48,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
+# Password change. Logouts out user on password change.
 @auth.route('/change_password', methods=["GET", "POST"])
 @login_required
 def change_password():

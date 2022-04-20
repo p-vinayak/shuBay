@@ -8,6 +8,7 @@ from products.forms import AddProductToCartForm
 products = Blueprint("products", __name__, url_prefix="/products")
 
 
+# Allows admins to create product categories
 @products.route("/category/create", methods=["GET", "POST"])
 @login_required
 def create_category():
@@ -24,6 +25,7 @@ def create_category():
     return render_template("products/create_category.html", user=current_user, form=form)
 
 
+# Allows vendors to create new products
 @products.route("/create", methods=["GET", "POST"])
 @login_required
 def create():
@@ -42,6 +44,7 @@ def create():
     return render_template("products/create_product.html", user=current_user, form=form)
 
 
+# Allows vendors to manage specific products that are owned by them
 @products.route("/manage/<int:id>", methods=["GET", "POST"])
 @login_required
 def manage_product(id):
@@ -73,6 +76,7 @@ def manage_product(id):
     return render_template("products/manage_product.html", user=current_user, form=form, product=product)
 
 
+# Allows vendors to see all products owned by them
 @products.route("/manage", methods=["GET"])
 @login_required
 def manage():
@@ -85,6 +89,7 @@ def manage():
     return render_template("products/manage.html", user=current_user, products=products)
 
 
+# Lists all products that are listed and have stock
 @products.route("/", methods=["GET"])
 @login_required
 def index():
@@ -94,6 +99,7 @@ def index():
     return render_template("products/index.html", user=current_user, products=products)
 
 
+# Displays a specific product that can be purchased
 @products.route("/product/<int:id>", methods=["GET", "POST"])
 @login_required
 def product(id):

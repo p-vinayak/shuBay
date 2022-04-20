@@ -4,9 +4,10 @@ from flask_wtf import FlaskForm
 from wtforms import *
 
 
-PASSWORD_VALIDATION_REGEX = '^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$'
+PHONE_NUMBER_VALIDATION_REGEX = '^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$'
 
 
+# Checks if email is already registered
 def is_email_registered(form, field):
     if get_user_by_email(field.data) is not None:
         raise ValidationError("Email already registered")
@@ -18,7 +19,7 @@ class RegistrationForm(FlaskForm):
     last_name = StringField('Last Name', [validators.Length(min=1, max=50), validators.DataRequired()])
     phone_number = StringField('Phone Number', [validators.Length(min=10, max=20),
                                                 validators.DataRequired(),
-                                                validators.Regexp(PASSWORD_VALIDATION_REGEX,
+                                                validators.Regexp(PHONE_NUMBER_VALIDATION_REGEX,
                                                                   message="Must be a valid phone number")])
     password = PasswordField('Password', [validators.DataRequired(),
                                           validators.EqualTo('password_confirm', message="Passwords must match"),
