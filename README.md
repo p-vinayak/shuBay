@@ -146,3 +146,9 @@ Services is where the core of the website's CRUD operations take place. Services
 delete from the database. 
 
 Services can be found under packages (such as users, vendor, products etc.).
+
+## Todo
+
+- Add flash messages
+- Add ER Diagram
+- Add project description

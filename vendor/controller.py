@@ -125,5 +125,4 @@ def revoke_vendor(id):
     if not user.is_vendor:
         return redirect(url_for("vendor.manage"))
     set_vendor(user.id, False)
-    unlist_all_products_for_vendor(user.id)
     return redirect(url_for("vendor.manage"))

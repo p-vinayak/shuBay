@@ -1,5 +1,6 @@
 from products.models import ProductCategory, Product
 from cart.models import CartItem
+from users.models import User
 from db import db
 from sqlalchemy.sql.expression import true
 
@@ -23,9 +24,9 @@ def create_product(name, description, price, stock, vendor_id, category_id, is_l
     db.session.commit()
 
 
-# Gets all products that are listed and are purchasable
+# Gets all products that are listed, purchasable, and sold by active vendors
 def get_product_listing():
-    return Product.query.filter_by(is_listed=True).filter(Product.stock > 0).all()
+    return Product.query.filter_by(is_listed=True).filter(Product.stock > 0, User.is_vendor == true()).all()
 
 
 # Gets product by id

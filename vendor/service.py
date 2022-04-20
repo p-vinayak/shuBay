@@ -42,10 +42,3 @@ def complete_application(application_id, approval, completed_by_id):
     application.is_active = False
     application.owner.is_vendor = approval
     db.session.commit()
-
-
-# Unlists all products for a given vendor
-def unlist_all_products_for_vendor(vendor_id):
-    unlist_products_query = Product.query.filter(Product.vendor_id == vendor_id).update({Product.is_listed: False})
-    db.session.query(unlist_products_query)
-    db.session.commit()

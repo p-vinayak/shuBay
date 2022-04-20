@@ -108,7 +108,7 @@ def product(id):
     if product is None:
         return redirect(url_for("products.index"))
     # Redirect if product is not listed or has no stock available
-    if not product.is_listed or product.stock < 1:
+    if not product.is_listed or product.stock < 1 or not product.vendor.is_vendor:
         return redirect(url_for("products.index"))
     # Get this product as a cart item, if the user has it in their cart
     cart_item = get_cart_item(current_user.cart.id, product.id)
