@@ -4,6 +4,8 @@ A product sales service like eBay where every user can be a vendor.
 
 This project was created as a part of my final project for my DB class.
 
+ER diagram, schema diagram, and table creation sql are all located under the DB folder.
+
 ## About
 
 shuBay comes with the following features:
@@ -147,9 +149,3 @@ delete from the database.
 
 Services can be found under packages (such as users, vendor, products etc.).
 
-## Todo
-
-- Add flash messages
-- Add ER Diagram
-- Add project description
-- Order by
