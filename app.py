@@ -35,6 +35,7 @@ def create_app():
     # Initialize login manager
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
+    login_manager.login_message_category = "danger"
     login_manager.init_app(app)
 
     # Load users on session fetch
