@@ -12,7 +12,7 @@ def get_order_by_id(order_id):
 
 # Gets all orders for a given user
 def get_orders_for_user(user_id):
-    return Order.query.filter_by(customer_id=user_id).all()
+    return Order.query.filter_by(customer_id=user_id).order_by(Order.is_complete).all()
 
 
 # Deletes all orders that are unfilled (typically used to delete any blank orders that were created due to error)
@@ -71,7 +71,7 @@ def get_requested_order(order_id, product_id, vendor_id):
 
 # Gets all order items that need to be fulfilled, or have been fulfilled by a vendor
 def get_requested_orders(vendor_id):
-    return OrderItem.query.filter(Product.vendor_id == vendor_id).all()
+    return OrderItem.query.filter(Product.vendor_id == vendor_id).order_by(OrderItem.is_delivered).all()
 
 
 # Sets order as complete (used when all items in the order are delivered)

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import current_user, login_required
 from products.forms import CreateProductCategoryForm, CreateProductForm, UpdateProductForm
 from products.service import *
@@ -14,12 +14,14 @@ products = Blueprint("products", __name__, url_prefix="/products")
 def create_category():
     # Redirect if users is not an admin
     if not current_user.is_admin:
+        flash("You are not an admin!", "danger")
         return redirect(url_for("dashboard.index"))
     # Initialize create product category form
     form = CreateProductCategoryForm(request.form)
     # Create product category if form is valid on submission
     if form.validate_on_submit():
         create_product_category(form.category_name.data)
+        flash("Product category successfully created!", "success")
         return redirect(url_for("dashboard.index"))
     # Render create product category page
     return render_template("products/create_category.html", user=current_user, form=form)
@@ -31,6 +33,7 @@ def create_category():
 def create():
     # Redirect if users is not a vendor
     if not current_user.is_vendor:
+        flash("You are not a vendor!", "danger")
         return redirect(url_for("dashboard.index"))
     # Initialize create product form
     form = CreateProductForm(request.form)
@@ -40,6 +43,7 @@ def create():
     if form.validate_on_submit():
         create_product(form.name.data, form.description.data, form.price.data, form.stock.data, current_user.id,
                        form.category.data, form.is_listed.data)
+        flash("Product successfully created!", "success")
         return redirect(url_for("dashboard.index"))
     return render_template("products/create_product.html", user=current_user, form=form)
 
@@ -50,13 +54,16 @@ def create():
 def manage_product(id):
     # Redirect if user is not a vendor
     if not current_user.is_vendor:
+        flash("You are not a vendor!", "danger")
         return redirect(url_for("dashboard.index"))
     # Redirect if product does not exist
     product = get_product_by_id(id)
     if product is None:
+        flash("Product does not exist", "danger")
         return redirect(url_for("products.manage"))
     # Redirect if vendor is not the owner of this product
     if product.vendor.id != current_user.id:
+        flash("You are not the owner of this product!", "danger")
         return redirect(url_for("products.manage"))
     # Initialize create product form
     form = UpdateProductForm(request.form)
@@ -65,6 +72,7 @@ def manage_product(id):
     # Update product if form is valid on submit
     if form.validate_on_submit():
         update_product(product.id, form.price.data, form.stock.data, form.category.data, form.is_listed.data)
+        flash("Product sucessfully updated!", "success")
         return redirect(url_for("products.manage_product", id=product.id))
     # Update form default values using existing product values
     form.price.default = product.price
@@ -82,6 +90,7 @@ def manage_product(id):
 def manage():
     # Redirect if user is not a vendor
     if not current_user.is_vendor:
+        flash("You are not a vendor!", "danger")
         return redirect(url_for("dashboard.index"))
     # Get all products owned by vendor, listed or not
     products = get_products_by_vendor(current_user.id)
@@ -106,9 +115,11 @@ def product(id):
     product = get_product_by_id(id)
     # Redirect if product doesn't exist
     if product is None:
+        flash("Product does not exist!", "danger")
         return redirect(url_for("products.index"))
     # Redirect if product is not listed, has no stock available, or has an inactive vendor
     if not product.is_listed or product.stock < 1 or not product.vendor.is_vendor:
+        flash("Product is not purchasable!", "danger")
         return redirect(url_for("products.index"))
     # Get this product as a cart item, if the user has it in their cart
     cart_item = get_cart_item(current_user.cart.id, product.id)
@@ -119,7 +130,9 @@ def product(id):
         # Redirect if product is already in the user's cart
         # Any updates to cart item or purchase quantity should be handled in the cart route
         if cart_item is not None:
+            flash("Product is already in your cart!", "danger")
             return redirect(url_for("products.index"))
+        flash("Product successfully added to cart!", "success")
         create_cart_item(current_user.cart.id, product.id, form.item_count.data)
         return redirect(url_for("products.index"))
     # Render product page

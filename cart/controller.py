@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from cart.service import get_cart_item, delete_cart_item, update_cart_item_quantity, adjust_cart_item, clear_cart
 from cart.forms import UpdateCartItem
@@ -27,10 +27,12 @@ def manage(id):
     cart_item = get_cart_item(current_user.cart.id, id)
     # Redirect user if cart item doesn't exist
     if cart_item is None:
+        flash("Cart item does not exist!", "danger")
         return redirect(url_for("cart.index"))
     # Delete cart item if product is not listed anymore and redirect user
     if not cart_item.product.is_listed:
         delete_cart_item(current_user.cart.id, cart_item.product.id)
+        flash("That item was removed from your cart because it is no longer listed by the vendor.", "danger")
         return redirect(url_for("cart.index"))
     # Adjust cart item's purchase quantity if purchase quantity is no longer available
     if cart_item.quantity > cart_item.product.stock:
@@ -41,6 +43,7 @@ def manage(id):
     # Update cart item on valid form submission
     if form.validate_on_submit():
         update_cart_item_quantity(current_user.cart.id, id, form.item_count.data)
+        flash("Cart item successfully updated!", "success")
         return redirect(url_for("cart.manage", id=id))
     # Set form item count default value to current purchase quantity of cart item
     form.item_count.default = cart_item.quantity
@@ -54,6 +57,7 @@ def manage(id):
 @login_required
 def remove(id):
     delete_cart_item(current_user.cart.id, id)
+    flash("Cart item successfully deleted!", "success")
     return redirect(url_for("cart.index"))
 
 
@@ -70,6 +74,7 @@ def checkout():
     if request.method == "POST":
         # Redirect if cart has no items. No order should be created.
         if len(current_user.cart.items) < 1:
+            flash("You cannot checkout with no items in your cart", "danger")
             return redirect(url_for("cart.checkout"))
         # If any blank orders were created in the past due to errors, delete them
         delete_existing_unfilled_orders(current_user.id)
@@ -81,6 +86,7 @@ def checkout():
         # Set order status to filled, meaning no more order items can be added to this order
         finish_order_creation(new_order.id)
         clear_cart(current_user.cart.id)
+        flash("Order successfully created!", "success")
         return redirect(url_for("orders.index"))
     return render_template("cart/checkout.html", user=current_user, cart_items=current_user.cart.items,
                            delivery_charge=current_user.cart.calculate_delivery_charge(),

@@ -49,5 +49,5 @@ def update_product(product_id, price, stock, category_id, is_listed):
 
 # Gets all products owned by a vendor
 def get_products_by_vendor(vendor_id):
-    return Product.query.filter_by(id=vendor_id).all()
+    return Product.query.filter_by(vendor_id=vendor_id).all()
 

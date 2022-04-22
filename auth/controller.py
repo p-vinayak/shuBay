@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, render_template, request
+from flask import Blueprint, redirect, url_for, render_template, request, flash
 from flask_login import current_user, login_required, logout_user
 from auth.forms import RegistrationForm, LoginForm, UpdatePasswordForm
 from users.service import create_user, get_user_by_email, update_user_password
@@ -18,6 +18,7 @@ def register():
     # Create users on valid form submission
     if form.validate_on_submit():
         create_user(form.email.data, form.first_name.data, form.last_name.data, form.phone_number.data, form.password.data)
+        flash("Registration successful! Please login.", "success")
         return redirect(url_for("auth.login"))
     # Render registration page
     return render_template("auth/register.html", form=form)
@@ -35,6 +36,7 @@ def login():
     if form.validate_on_submit():
         user = get_user_by_email(form.email.data)
         login_user(user)
+        flash("Login successful!", "success")
         return redirect(url_for("dashboard.index"))
     # Render login page
     return render_template("auth/login.html", form=form)
@@ -45,6 +47,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("You have been logged out!", "danger")
     return redirect(url_for('auth.login'))
 
 
@@ -59,5 +62,6 @@ def change_password():
         update_user_password(current_user.id, form.new_password.data)
         # Logout user so they have to re-login with their new password
         logout_user()
+        flash("Password successfully changed! Please login again.", "success")
         return redirect(url_for('auth.login'))
     return render_template("auth/update_password.html", form=form)
