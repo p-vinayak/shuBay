@@ -1,7 +1,7 @@
 import click
 from flask import cli, current_app
 from db import db
-from users.service import create_user
+from users.service import create_user, get_user_by_email, set_admin
 from products.service import create_product_category
 
 
@@ -26,3 +26,30 @@ def init_db():
     create_product_category("Electronics")
     click.echo("Created default product categories")
 
+
+@click.command("add-admin")
+@click.argument("email")
+@cli.with_appcontext
+def add_admin(email):
+    user = get_user_by_email(email)
+    # Check if user with given email exists
+    if user is None:
+        click.echo(f"User with email {email} not found!")
+        return
+    # Make user an admin
+    set_admin(user.id, True)
+    click.echo(f"User {email} is now an admin!")
+
+
+@click.command("revoke-admin")
+@click.argument("email")
+@cli.with_appcontext
+def revoke_admin(email):
+    user = get_user_by_email(email)
+    # Check if user with given email exists
+    if user is None:
+        click.echo(f"User with email {email} not found!")
+        return
+    # Revoke admin status from user
+    set_admin(user.id, False)
+    click.echo(f"User {email} is no longer an admin!")

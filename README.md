@@ -1,15 +1,17 @@
 # shuBay
 
-A product sales service like eBay where every user can be a vendor.
+A product sales service system, much like eBay, where every user can be a vendor.
+
+shuBay allows users to become vendors who can create/manage/sell products. Users can also buy products from vendors.
 
 This project was created as a part of my final project for my DB class.
 
-ER diagram, schema diagram, and table creation sql are all located under the DB folder.
-
-## About
+## Details & Features
 
 shuBay comes with the following features:
 
+- User registration
+- User login
 - Applying for vendor (as user)
 - Creating, managing products (as vendor)
 - Browsing products
@@ -21,6 +23,14 @@ shuBay comes with the following features:
 - Managing vendors (as admin)
 - Managing vendor applications (as admin)
 
+## Schema Diagram
+
+![Schema Diagram](./db/schema_diagram.png)
+
+## ER Diagram
+
+![ER Diagram](./db/shuBay-ERD.png)
+
 ## Requirements
 
 ```
@@ -30,11 +40,17 @@ Pip for Python 3 (pip3)
 
 ## Installation
 
-Install all required packages
+**IMPORTANT NOTE: PLEASE ENSURE THAT ANY SCRIPTS IN THE SCRIPTS FOLDER ARE 
+EXECUTED FROM THE ROOT DIRECTORY OF THIS PROJECT. IF YOU RUN THESE SCRIPTS FROM THE SCRIPTS FOLDER, THIS WILL NOT WORK**
+
+Install the dependencies for this project by using the following commands in the root directory of this project:
 
 ```
-pip3 install -r requirements.txt
+chmod a+x ./scripts/install.sh
+./scripts/install.sh
 ```
+
+Once installation is completed, please configure the environment variables (refer to the section below).
 
 ## Environment Variables
 
@@ -55,12 +71,12 @@ While `SQLALCHEMY_TRACK_MODIFICATIONS` should be set to false, you may set `SQLA
 see all the queries that being executed by sqlalchemy. Sqlalchemy will log every query executed to the console in SQL
 format.
 
-## Initialization
+## DB Initialization
 
 Database tables must be initialized before this application can be used.
 
 ```
-flask init-db
+chmod a+x ./scripts/init.sh
 ```
 
 This command also creates a default admin account (with password specific in config) along with some default product
@@ -69,38 +85,29 @@ categories.
 ## Usage
 
 **NOTE**: Before running, please ensure that all values in the config file are filled out. 
-Please also ensure that you do not execute `flask run` without setting the environment variables 
-(such as `export FLASK_APP=main`).
 
-You may run the application using the following commands, after which the project should be running on 
+You may run the application using the following commands at the root directory of this project, after which the project should be running on 
 `http://127.0.0.1:5000`.
 
-Development:
-
 ```
-export FLASK_APP=main
-export FLASK_ENV=development
-export FLASK_DEBUG=TRUE
-flask run
-```
-
-Production:
-
-```
-export FLASK_APP=main
-export FLASK_ENV=production
-flask run
+chmod a+x ./scripts/run.sh
+# For Development
+./scripts/run.sh dev
+# For Production
+./scripts/run.sh prod
 ```
 
 ## Adding/removing admin accounts
 
 Admins can be manually added/removed by setting the is_admin value of a user to true/false.
 
-This can also be done through the use of some custom flask commands included with the application.
+This can also be done through the use of some custom scripts that are included with the application.
 
-`flask add-admin <email>`
-
-`flask revoke-admin <email>`
+```
+chmod a+x ./scripts/admin.sh
+./scripts/admin.sh add <email>
+./scripts/admin.sh revoke <email>
+```
 
 ## Project Structure:
 

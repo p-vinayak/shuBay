@@ -39,3 +39,10 @@ def set_vendor(user_id, vendor_status):
     user = User.query.filter_by(id=user_id).first()
     user.is_vendor = vendor_status
     db.session.commit()
+
+
+# Sets the admin status of a user
+def set_admin(user_id, admin_status):
+    user = User.query.filter_by(id=user_id).first()
+    user.is_admin = admin_status
+    db.session.commit()

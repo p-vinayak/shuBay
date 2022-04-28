@@ -1,7 +1,7 @@
 import json
 from flask import Flask, redirect, url_for
 from db import db
-from cli.commands import init_db
+from cli.commands import init_db, add_admin, revoke_admin
 from flask_login import LoginManager
 from users.service import get_user_by_id
 import auth
@@ -23,6 +23,8 @@ def create_app():
 
     # Initialize CLI commands
     app.cli.add_command(init_db)
+    app.cli.add_command(add_admin)
+    app.cli.add_command(revoke_admin)
 
     # Register routes
     auth.init_app(app)
