@@ -4,8 +4,6 @@ A product sales service system, much like eBay, where every user can be a vendor
 
 shuBay allows users to become vendors who can create/manage/sell products. Users can also buy products from vendors.
 
-This project was created as a part of my final project for my DB class.
-
 ## Details & Features
 
 shuBay comes with the following features:
